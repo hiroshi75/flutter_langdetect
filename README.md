@@ -19,7 +19,7 @@ Add `flutter_langdetect` to your `pubspec.yaml` dependencies:
 
 ```yaml
 dependencies:
-  flutter_langdetect: ^0.1.0
+  flutter_langdetect: ^0.0.1
 ```
 Then, run flutter pub get to download and install the package.
 

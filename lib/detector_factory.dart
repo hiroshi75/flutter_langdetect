@@ -66,6 +66,16 @@ const PROFILES = [
 ];
 
 class DetectorFactory {
+  /// Language Detector Factory Class.
+  /// This class manages an initialization and constructions of Detector.
+  /// Before using language detection library,
+  /// initialize just once with initFactory() method after
+  /// WidgetsFlutterBinding.ensureInitialized();
+  ///
+  /// When the language detection,
+  /// construct Detector instance via DetectorFactory.create().
+  /// See also Detector's sample code.
+
   final logger = Logger();
   static final DetectorFactory _singleton = DetectorFactory._internal();
   static String profileBasePath =

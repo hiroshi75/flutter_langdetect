@@ -4,9 +4,9 @@ import '../lib/utils/lang_profile.dart'; // LangProfile を含むファイルへ
 
 void main() {
   group('DetectorTest', () {
-    final trainingEn = 'a a a b b c c d e';
-    final trainingFr = 'a b b c c c d d d';
-    final trainingJa = '\u3042 \u3042 \u3042 \u3044 \u3046 \u3048 \u3048';
+    const trainingEn = 'a a a b b c c d e';
+    const trainingFr = 'a b b c c c d d d';
+    const trainingJa = '\u3042 \u3042 \u3042 \u3044 \u3046 \u3048 \u3048';
 
     DetectorFactory? factory;
 

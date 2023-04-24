@@ -1,4 +1,8 @@
 class Language {
+  /// [Language] is to store the detected language.
+  ///
+  /// [Detector.getProbabilities()] returns a list of Languages.
+
   String lang;
   double prob;
 
