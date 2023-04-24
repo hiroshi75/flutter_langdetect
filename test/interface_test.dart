@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/langdetect.dart';
+import '../lib/flutter_langdetect.dart';
 import 'package:flutter/widgets.dart';
 import '../lib/detector_factory.dart';
 
