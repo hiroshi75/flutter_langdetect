@@ -15,9 +15,8 @@ class LangProfile {
   Map<String, int> freq = HashMap<String, int>();
   List<int> nWords;
 
-  LangProfile({String? name, Map<String, int>? freq, List<int>? nWords})
-      : name = name,
-        freq = freq ?? HashMap<String, int>(),
+  LangProfile({this.name, Map<String, int>? freq, List<int>? nWords})
+      : freq = freq ?? HashMap<String, int>(),
         nWords = nWords ?? List<int>.filled(NGram.N_GRAM, 0) {
     if (freq != null) {
       this.freq.addAll(freq);

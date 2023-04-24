@@ -1,4 +1,3 @@
-import 'messages.dart' as messages;
 import 'unicode_block.dart' show UnicodeBlock, unicodeBlock;
 import 'ngram_data.dart';
 
@@ -124,7 +123,7 @@ class NGram {
   static String toNormalizeViChars = TO_NORMALIZE_VI_CHARS;
   static String dmarkClass = DMARK_CLASS;
   static RegExp alphabetWithDmark = RegExp(
-    '([' + toNormalizeViChars + '])([' + dmarkClass + '])',
+    '([$toNormalizeViChars])([$dmarkClass])',
     unicode: true,
   );
 

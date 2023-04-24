@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'dart:convert';
 
 import 'detector.dart';
 import 'lang_detect_exception.dart';
 import 'utils/lang_profile.dart';
 import 'language.dart';
-import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 
@@ -110,20 +108,9 @@ class DetectorFactory {
     int index = 0;
     for (var file in PROFILES) {
       String filename = "$profileBasePath$file";
-      String fileContent;
-      try {
-        fileContent = await rootBundle.loadString(filename);
-      } //assetが存在しない時の例外
-      catch (e) {
-        logger.e("file not found: $filename");
-        //continue;
-        rethrow;
-      }
 
       try {
         String content = (await rootBundle.loadString(filename));
-        // contentをutf8に変換してcontent_utf8に代入
-        //String content_utf8 = utf8.decode(content.codeUnits);
 
         final jsonData = jsonDecode(content);
         LangProfile profile = LangProfile(
@@ -134,9 +121,8 @@ class DetectorFactory {
         addProfile(profile, index, langSize);
         index += 1;
       } catch (e) {
-        rethrow;
-        // throw LangDetectException(
-        //     ErrorCode.FileLoadError, 'Cannot open "$filename"');
+        throw LangDetectException(
+            ErrorCode.FileLoadError, 'Cannot open "$filename"');
       }
     }
   }

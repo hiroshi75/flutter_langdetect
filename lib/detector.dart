@@ -4,8 +4,10 @@ import 'utils/unicode_block.dart';
 import 'language.dart';
 import 'lang_detect_exception.dart';
 import 'detector_factory.dart';
+import 'package:logger/logger.dart';
 
 class Detector {
+  final logger = Logger();
   static const double ALPHA_DEFAULT = 0.5;
   static const double ALPHA_WIDTH = 0.05;
   static const int ITERATION_LIMIT = 1000;
@@ -92,7 +94,7 @@ class Detector {
   void cleaningText() {
     int latinCount = 0;
     int nonLatinCount = 0;
-    for (int codeUnit in this.text.codeUnits) {
+    for (int codeUnit in text.codeUnits) {
       String ch = String.fromCharCode(codeUnit);
       if ('A'.compareTo(ch) <= 0 && ch.compareTo('z') <= 0) {
         latinCount++;
@@ -104,13 +106,13 @@ class Detector {
 
     if (latinCount * 2 < nonLatinCount) {
       String textWithoutLatin = '';
-      for (int codeUnit in this.text.codeUnits) {
+      for (int codeUnit in text.codeUnits) {
         String ch = String.fromCharCode(codeUnit);
         if (ch.compareTo('A') < 0 || ch.compareTo('z') > 0) {
           textWithoutLatin += ch;
         }
       }
-      this.text = textWithoutLatin;
+      text = textWithoutLatin;
     }
   }
 
@@ -179,7 +181,7 @@ class Detector {
   List<String> _extractNgrams() {
     List<String> result = [];
     NGram ngram = NGram();
-    for (String ch in this.text.split('')) {
+    for (String ch in text.split('')) {
       ngram.addChar(ch);
       if (ngram.capitalword) {
         continue;
@@ -204,7 +206,7 @@ class Detector {
 
     List<double> langProbMap = wordLangProbMap[word]!;
     if (verbose) {
-      print('$word($word): ${_wordProbToString(langProbMap)}');
+      logger.d('$word($word): ${_wordProbToString(langProbMap)}');
     }
 
     double weight = alpha / BASE_FREQ;
