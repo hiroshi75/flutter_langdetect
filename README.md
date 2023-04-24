@@ -1,39 +1,58 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# flutter_langdetect
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A Flutter package for language detection, ported from the Python [`langdetect`](https://github.com/Mimino666/langdetect) library.
 
 ## Features
+- Detects 55 languages
+- Lightweight and fast
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+## Languages
+`flutter_langdetect` supports 55 languages out of the box ([ISO 639-1 codes](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)):
 
-## Getting started
+    af, ar, bg, bn, ca, cs, cy, da, de, el, en, es, et, fa, fi, fr, gu, he,
+    hi, hr, hu, id, it, ja, kn, ko, lt, lv, mk, ml, mr, ne, nl, no, pa, pl,
+    pt, ro, ru, sk, sl, so, sq, sv, sw, ta, te, th, tl, tr, uk, ur, vi, zh-cn, zh-tw
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+## Installation
+
+Add `flutter_langdetect` to your `pubspec.yaml` dependencies:
+
+```yaml
+dependencies:
+  flutter_langdetect: ^0.1.0
+```
+Then, run flutter pub get to download and install the package.
 
 ## Usage
+```
+import 'package:flutter/widgets.dart';
+import 'package:flutter_langdetect/flutter_langdetect.dart' as langdetect;
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await langdetect.initLangDetect();
+  String text = 'Hello, world!';
+  final language = langdetect.detect(text);
+  print('Detected language: $language'); // -> "en"
 
-```dart
-const like = 'sample';
+  final probs = detectLangs(text);
+  for (final p in probs) {
+    print("Language: ${p.lang}");  // -> "en"
+    print("Probability: ${p.prob}");  // -> 0.9999964132193504
+  }
+}
 ```
 
-## Additional information
+## History
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+The `flutter_langdetect` package is inspired by the Python library [`langdetect`](https://github.com/Mimino666/langdetect) created by [Mimino666](https://github.com/Mimino666). 
+
+In turn, the Python `langdetect` library is a port of Nakatani Shuyo's [language-detection](https://github.com/shuyo/language-detection) library, which is written in Java. 
+
+Both of these projects have contributed significantly to the field of natural language processing and have enabled developers to easily integrate language detection capabilities into their applications.
+
+## Contributing
+Contributions are welcome! Feel free to open issues or submit pull requests to improve the package.
+
+## License
+This package is licensed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0.html).
