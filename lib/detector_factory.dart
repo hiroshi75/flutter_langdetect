@@ -70,7 +70,8 @@ const PROFILES = [
 class DetectorFactory {
   final logger = Logger();
   static final DetectorFactory _singleton = DetectorFactory._internal();
-  static String profileBasePath = "packages/langdetect/assets/profiles/";
+  static String profileBasePath =
+      "packages/flutter_langdetect/assets/profiles/";
 
   factory DetectorFactory() {
     return _singleton;

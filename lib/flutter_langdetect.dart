@@ -1,4 +1,4 @@
-library langdetect;
+library flutter_langdetect;
 
 import 'detector_factory.dart' show DetectorFactory, detectLangs, detect;
 import 'lang_detect_exception.dart' show LangDetectException;
