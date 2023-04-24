@@ -12,6 +12,7 @@ void main() {
 
     setUp(() async {
       //await DetectorFactory.initFactory();
+      DetectorFactory.profileBasePath = "assets/profiles/";
       factory = DetectorFactory();
       factory!.clear();
 
