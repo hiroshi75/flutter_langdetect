@@ -4,7 +4,6 @@ import 'detector.dart';
 import 'lang_detect_exception.dart';
 import 'utils/lang_profile.dart';
 import 'language.dart';
-import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'utils/profiles/all_language_profiles.dart';
 
