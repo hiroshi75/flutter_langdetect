@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/utils/lang_profile.dart'; // The actual import path of the LangProfile class
+import 'package:flutter_langdetect/utils/lang_profile.dart'; // The actual import path of the LangProfile class
 
 void main() {
   group('LangProfileTest', () {

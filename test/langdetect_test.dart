@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/detector_factory.dart'; // DetectorFactory を含むファイルへの適切なインポートを指定してください
-import '../lib/utils/lang_profile.dart'; // LangProfile を含むファイルへの適切なインポートを指定してください
+import 'package:flutter_langdetect/detector_factory.dart'; // DetectorFactory を含むファイルへの適切なインポートを指定してください
+import 'package:flutter_langdetect/utils/lang_profile.dart'; // LangProfile を含むファイルへの適切なインポートを指定してください
 
 void main() {
   group('DetectorTest', () {

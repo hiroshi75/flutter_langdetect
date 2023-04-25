@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/language.dart'; // The actual import path of the Language class
+import 'package:flutter_langdetect/language.dart'; // The actual import path of the Language class
 
 void main() {
   group('LanguageTest', () {

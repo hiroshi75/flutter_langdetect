@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/utils/unicode_block.dart'; // The actual import path of the UnicodeBlock enum and unicodeBlock function
+import 'package:flutter_langdetect/utils/unicode_block.dart'; // The actual import path of the UnicodeBlock enum and unicodeBlock function
 
 void main() {
   group('UnicodeBlockTest', () {

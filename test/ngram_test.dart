@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/utils/ngram.dart';
+import 'package:flutter_langdetect/utils/ngram.dart';
 
 void main() {
   group('NGramTest', () {
