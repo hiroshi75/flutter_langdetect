@@ -6,64 +6,7 @@ import 'utils/lang_profile.dart';
 import 'language.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
-
-const PROFILES = [
-  "af",
-  "ar",
-  "bg",
-  "bn",
-  "ca",
-  "cs",
-  "cy",
-  "da",
-  "de",
-  "el",
-  "en",
-  "es",
-  "et",
-  "fa",
-  "fi",
-  "fr",
-  "gu",
-  "he",
-  "hi",
-  "hr",
-  "hu",
-  "id",
-  "it",
-  "ja",
-  "kn",
-  "ko",
-  "lt",
-  "lv",
-  "mk",
-  "ml",
-  "mr",
-  "ne",
-  "nl",
-  "no",
-  "pa",
-  "pl",
-  "pt",
-  "ro",
-  "ru",
-  "sk",
-  "sl",
-  "so",
-  "sq",
-  "sv",
-  "sw",
-  "ta",
-  "te",
-  "th",
-  "tl",
-  "tr",
-  "uk",
-  "ur",
-  "vi",
-  "zh-cn",
-  "zh-tw",
-];
+import 'utils/profiles/all_language_profiles.dart';
 
 class DetectorFactory {
   /// Language Detector Factory Class.
@@ -114,26 +57,15 @@ class DetectorFactory {
 
   Future<void> loadProfile() async {
     logger.d("loadProfile");
-    int langSize = PROFILES.length;
+    int langSize = allLanguageProfiles.length;
     int index = 0;
-    for (var file in PROFILES) {
-      String filename = "$profileBasePath$file";
-
-      try {
-        String content = (await rootBundle.loadString(filename));
-
-        final jsonData = jsonDecode(content);
-        LangProfile profile = LangProfile(
-            name: jsonData['name'],
-            freq: (jsonData['freq'] as Map<String, dynamic>)
-                .map((key, value) => MapEntry(key, value.toInt())),
-            nWords: (jsonData['n_words'].cast<int>() as List<int>));
-        addProfile(profile, index, langSize);
-        index += 1;
-      } catch (e) {
-        throw LangDetectException(
-            ErrorCode.FileLoadError, 'Cannot open "$filename"');
-      }
+    for (final languageProfile in allLanguageProfiles) {
+      LangProfile profile = LangProfile(
+          name: languageProfile.name,
+          freq: languageProfile.freq,
+          nWords: languageProfile.nWords);
+      addProfile(profile, index, langSize);
+      index += 1;
     }
   }
 
