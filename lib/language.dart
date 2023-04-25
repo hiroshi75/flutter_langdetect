@@ -16,4 +16,8 @@ class Language {
   bool operator <(Language other) {
     return prob < other.prob;
   }
+
+  bool operator >(Language other) {
+    return prob > other.prob;
+  }
 }

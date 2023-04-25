@@ -12,11 +12,11 @@ class LangProfile {
   static final RegExp romanSubstrRe = RegExp(r'.*[A-Za-z].*');
 
   String? name;
-  Map<String, int> freq = HashMap<String, int>();
+  Map<String, int> freq = {};
   List<int> nWords;
 
   LangProfile({this.name, Map<String, int>? freq, List<int>? nWords})
-      : freq = Map<String, int>.from(freq ?? HashMap<String, int>()),
+      : freq = Map<String, int>.from(freq ?? {}),
         nWords = nWords ?? List<int>.filled(NGram.N_GRAM, 0) {
     if (freq != null) {
       this.freq.addAll(freq);
@@ -36,7 +36,10 @@ class LangProfile {
     int threshold = max(nWords[0] ~/ lessFreqRatio, minimumFreq);
 
     int roman = 0;
-    freq.forEach((key, count) {
+    final keys = freq.keys.toList();
+    keys.forEach((key) {
+      // ここでエラー！
+      final count = freq[key]!;
       if (count <= threshold) {
         nWords[key.length - 1] -= count;
         freq.remove(key);
@@ -46,7 +49,9 @@ class LangProfile {
     });
 
     if (roman < nWords[0] ~/ 3) {
-      freq.forEach((key, count) {
+      final keys = freq.keys.toList();
+      keys.forEach((key) {
+        final count = freq[key]!;
         if (romanSubstrRe.hasMatch(key)) {
           nWords[key.length - 1] -= count;
           freq.remove(key);

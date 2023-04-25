@@ -8,6 +8,9 @@ class NGram {
 
   String grams = ' ';
   bool capitalword = false;
+  NGram() {
+    init_cjk_map();
+  }
 
   static void init_cjk_map() {
     if (CJK_MAP.isEmpty) {
@@ -67,6 +70,7 @@ class NGram {
   }
 
   static String normalize(String ch) {
+    init_cjk_map();
     final block = unicodeBlock(ch);
     if (block == UnicodeBlock.UNICODE_BASIC_LATIN) {
       if (ch.compareTo('A') < 0 ||
