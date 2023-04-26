@@ -1,5 +1,5 @@
 name: flutter_langdetect
-description: A new Flutter package project.
+description: A Flutter package for detecting the language of a given text using character-wise n-gram models
 version: 0.0.1
 homepage: https://github.com/hiroshi75/flutter_langdetect
 
