@@ -24,13 +24,17 @@ dependencies:
 Then, run flutter pub get to download and install the package.
 
 ## Usage
-```
+```dart
 import 'package:flutter/widgets.dart';
+
+// recommend to import 'as langdetect' because this package shows a simple function name 'detect'
 import 'package:flutter_langdetect/flutter_langdetect.dart' as langdetect;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await langdetect.initLangDetect();
+
+  await langdetect.initLangDetect();  // This is needed once in your application after ensureInitialized()
+
   String text = 'Hello, world!';
   final language = langdetect.detect(text);
   print('Detected language: $language'); // -> "en"
