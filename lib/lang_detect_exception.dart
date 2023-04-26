@@ -1,22 +1,22 @@
-class ErrorCode {
-  static const int NoTextError = 0;
-  static const int FormatError = 1;
-  static const int FileLoadError = 2;
-  static const int DuplicateLangError = 3;
-  static const int NeedLoadProfileError = 4;
-  static const int CantDetectError = 5;
-  static const int CantOpenTrainData = 6;
-  static const int TrainDataFormatError = 7;
-  static const int InitParamError = 8;
+enum ErrorCode {
+  noTextError,
+  formatError,
+  fileLoadError,
+  duplicateLangError,
+  needLoadProfileError,
+  cantDetectError,
+  cantOpenTrainData,
+  trainDataFormatError,
+  initParamError,
 }
 
 class LangDetectException implements Exception {
-  final int code;
+  final ErrorCode code;
   final String message;
 
   LangDetectException(this.code, this.message);
 
-  int getCode() {
+  ErrorCode getCode() {
     return code;
   }
 

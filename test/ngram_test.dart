@@ -4,7 +4,7 @@ import 'package:flutter_langdetect/utils/ngram.dart';
 void main() {
   group('NGramTest', () {
     test('test_constants', () {
-      expect(NGram.N_GRAM, 3);
+      expect(NGram.nGram, 3);
     });
 
     test('test_normalize_with_latin', () {

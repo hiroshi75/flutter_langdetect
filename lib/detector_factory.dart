@@ -73,7 +73,7 @@ class DetectorFactory {
     int index = 0;
     if (langSize < 2) {
       throw LangDetectException(
-          ErrorCode.NeedLoadProfileError, 'Need more than 2 profiles.');
+          ErrorCode.needLoadProfileError, 'Need more than 2 profiles.');
     }
 
     for (String jsonProfile in jsonProfiles) {
@@ -87,9 +87,8 @@ class DetectorFactory {
         addProfile(profile, index, langSize);
         index += 1;
       } catch (e) {
-        rethrow;
-        // throw LangDetectException(
-        //     ErrorCode.FormatError, 'Profile format error.$jsonProfile');
+        throw LangDetectException(
+            ErrorCode.formatError, 'Profile format error.$jsonProfile');
       }
     }
   }
@@ -98,7 +97,7 @@ class DetectorFactory {
     String lang = profile.name!;
     if (langList.contains(lang)) {
       final s = langList.toString();
-      throw LangDetectException(ErrorCode.DuplicateLangError,
+      throw LangDetectException(ErrorCode.duplicateLangError,
           'Duplicate the same language profile. $s');
     }
     langList.add(lang);
@@ -131,7 +130,7 @@ class DetectorFactory {
   Detector _createDetector() {
     if (langList.isEmpty) {
       throw LangDetectException(
-          ErrorCode.NeedLoadProfileError, 'Need to load profiles.');
+          ErrorCode.needLoadProfileError, 'Need to load profiles.');
     }
     return Detector(this);
   }

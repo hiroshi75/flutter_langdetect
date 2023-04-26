@@ -2,22 +2,22 @@ import 'unicode_block.dart' show UnicodeBlock, unicodeBlock;
 import 'ngram_data.dart';
 
 class NGram {
-  static const LATIN1_EXCLUDED = "\u00A0\u00AB\u00B0\u00BB";
-  static const N_GRAM = 3;
-  static Map<String, String> CJK_MAP = {};
+  static const latin1Excluded = "\u00A0\u00AB\u00B0\u00BB";
+  static const nGram = 3;
+  static Map<String, String> cjkMap = {};
 
   String grams = ' ';
   bool capitalword = false;
   NGram() {
-    init_cjk_map();
+    initCjkMap();
   }
 
-  static void init_cjk_map() {
-    if (CJK_MAP.isEmpty) {
-      for (final cjk_list in NGramData.CJK_LIST) {
-        final representative = cjk_list[0];
-        for (int i = 0; i < cjk_list.length; i++) {
-          CJK_MAP[cjk_list[i]] = representative;
+  static void initCjkMap() {
+    if (cjkMap.isEmpty) {
+      for (final cjkList in NGramData.cjkList) {
+        final representative = cjkList[0];
+        for (int i = 0; i < cjkList.length; i++) {
+          cjkMap[cjkList[i]] = representative;
         }
       }
     }
@@ -32,7 +32,7 @@ class NGram {
       if (ch == ' ') {
         return;
       }
-    } else if (grams.length >= N_GRAM) {
+    } else if (grams.length >= nGram) {
       grams = grams.substring(1);
     }
     grams += ch;
@@ -50,7 +50,7 @@ class NGram {
     if (capitalword) {
       return null;
     }
-    if (n < 1 || n > N_GRAM || grams.length < n) {
+    if (n < 1 || n > nGram || grams.length < n) {
       return null;
     }
     if (n == 1) {
@@ -70,19 +70,19 @@ class NGram {
   }
 
   static String normalize(String ch) {
-    init_cjk_map();
+    initCjkMap();
     final block = unicodeBlock(ch);
-    if (block == UnicodeBlock.UNICODE_BASIC_LATIN) {
+    if (block == UnicodeBlock.unicodeBasicLatin) {
       if (ch.compareTo('A') < 0 ||
           (ch.compareTo('Z') > 0 && ch.compareTo('a') < 0) ||
           ch.compareTo('z') > 0) {
         ch = ' ';
       }
-    } else if (block == UnicodeBlock.UNICODE_LATIN_1_SUPPLEMENT) {
-      if (LATIN1_EXCLUDED.contains(ch)) {
+    } else if (block == UnicodeBlock.unicodeLatin1Supplement) {
+      if (latin1Excluded.contains(ch)) {
         ch = ' ';
       }
-    } else if (block == UnicodeBlock.UNICODE_LATIN_EXTENDED_B) {
+    } else if (block == UnicodeBlock.unicodeLatinExtendedB) {
       // normalization for Romanian
       if (ch == '\u0219') {
         // Small S with comma below => with cedilla
@@ -92,40 +92,40 @@ class NGram {
         // Small T with comma below => with cedilla
         ch = '\u0163';
       }
-    } else if (block == UnicodeBlock.UNICODE_GENERAL_PUNCTUATION) {
+    } else if (block == UnicodeBlock.unicodeGeneralPunctuation) {
       ch = ' ';
-    } else if (block == UnicodeBlock.UNICODE_ARABIC) {
+    } else if (block == UnicodeBlock.unicodeArabic) {
       if (ch == '\u06cc') {
         ch = '\u064a'; // Farsi yeh => Arabic yeh
       }
-    } else if (block == UnicodeBlock.UNICODE_LATIN_EXTENDED_ADDITIONAL) {
+    } else if (block == UnicodeBlock.unicodeLatinExtendedAdditional) {
       if (ch.compareTo('\u1ea0') >= 0) {
         ch = '\u1ec3';
       }
-    } else if (block == UnicodeBlock.UNICODE_HIRAGANA) {
+    } else if (block == UnicodeBlock.unicodeHiragana) {
       ch = '\u3042';
-    } else if (block == UnicodeBlock.UNICODE_KATAKANA) {
+    } else if (block == UnicodeBlock.unicodeKatakana) {
       ch = '\u30a2';
-    } else if (block == UnicodeBlock.UNICODE_BOPOMOFO ||
-        block == UnicodeBlock.UNICODE_BOPOMOFO_EXTENDED) {
+    } else if (block == UnicodeBlock.unicodeBopomofo ||
+        block == UnicodeBlock.unicodeBopomofoExtended) {
       ch = '\u3105';
-    } else if (block == UnicodeBlock.UNICODE_CJK_UNIFIED_IDEOGRAPHS) {
-      ch = CJK_MAP[ch] ?? ch;
-    } else if (block == UnicodeBlock.UNICODE_HANGUL_SYLLABLES) {
+    } else if (block == UnicodeBlock.unicodeCjkUnifiedIdeographs) {
+      ch = cjkMap[ch] ?? ch;
+    } else if (block == UnicodeBlock.unicodeHangulSyllables) {
       ch = '\uac00';
     }
     return ch;
   }
 
   static List<String> normalizedViChars = [
-    NORMALIZED_VI_CHARS_0300,
-    NORMALIZED_VI_CHARS_0301,
-    NORMALIZED_VI_CHARS_0303,
-    NORMALIZED_VI_CHARS_0309,
-    NORMALIZED_VI_CHARS_0323
+    normalizedViChars0300,
+    normalizedViChars0301,
+    normalizedViChars0303,
+    normalizedViChars0309,
+    normalizedViChars0323
   ];
-  static String toNormalizeViChars = TO_NORMALIZE_VI_CHARS;
-  static String dmarkClass = DMARK_CLASS;
+  static String toNormalizeViChars = toNormalizeViCharsNorm;
+  static String dmarkClass = dmarkClassChars;
   static RegExp alphabetWithDmark = RegExp(
     '([$toNormalizeViChars])([$dmarkClass])',
     unicode: true,

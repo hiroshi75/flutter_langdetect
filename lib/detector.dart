@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'utils/ngram.dart';
 import 'utils/unicode_block.dart';
 import 'language.dart';
@@ -34,16 +35,16 @@ class Detector {
   ///
 
   final logger = Logger();
-  static const double ALPHA_DEFAULT = 0.5;
-  static const double ALPHA_WIDTH = 0.05;
-  static const int ITERATION_LIMIT = 1000;
-  static const double PROB_THRESHOLD = 0.1;
-  static const double CONV_THRESHOLD = 0.99999;
-  static const int BASE_FREQ = 10000;
-  static const String UNKNOWN_LANG = 'unknown';
-  static final RegExp URL_RE =
+  static const double alphaDefault = 0.5;
+  static const double alphaWidth = 0.05;
+  static const int iterationLimit = 1000;
+  static const double probThreshold = 0.1;
+  static const double convThreshold = 0.99999;
+  static const int baseFreq = 10000;
+  static const String unknownLang = 'unknown';
+  static final RegExp ureRe =
       RegExp(r'https?://[-_.?&~;+=/#0-9A-Za-z]{1,2076}');
-  static final RegExp MAIL_RE =
+  static final RegExp mailRe =
       RegExp(r'[-_.0-9A-Za-z]{1,64}@[-_0-9A-Za-z]{1,255}[-_.0-9A-Za-z]{1,255}');
 
   final DetectorFactory factory;
@@ -54,7 +55,7 @@ class Detector {
   String text = '';
   List<double>? langProb;
 
-  double alpha = ALPHA_DEFAULT;
+  double alpha = alphaDefault;
   int nTrial = 7;
   int maxTextLength = 10000;
   List<double>? priorMap;
@@ -84,7 +85,7 @@ class Detector {
       if (priorMap.containsKey(lang)) {
         double p = priorMap[lang]!;
         if (p < 0) {
-          throw LangDetectException(ErrorCode.InitParamError,
+          throw LangDetectException(ErrorCode.initParamError,
               'Prior probability must be non-negative.');
         }
         this.priorMap![i] = p;
@@ -92,7 +93,7 @@ class Detector {
       }
     }
     if (sump <= 0.0) {
-      throw LangDetectException(ErrorCode.InitParamError,
+      throw LangDetectException(ErrorCode.initParamError,
           'More one of prior probability must be non-zero.');
     }
     for (int i = 0; i < this.priorMap!.length; i++) {
@@ -113,8 +114,8 @@ class Detector {
     /// If the total size of target text exceeds the limit size specified by
     /// [Detector.set_max_text_length(int)], the rest is cut down.
 
-    text = text.replaceAll(URL_RE, ' ');
-    text = text.replaceAll(MAIL_RE, ' ');
+    text = text.replaceAll(ureRe, ' ');
+    text = text.replaceAll(mailRe, ' ');
     text = NGram.normalizeVi(text);
     String pre = ' ';
     for (int i = 0; i < min(text.length, maxTextLength); i++) {
@@ -137,7 +138,7 @@ class Detector {
       if ('A'.compareTo(ch) <= 0 && ch.compareTo('z') <= 0) {
         latinCount++;
       } else if (ch.compareTo('\u0300') >= 0 &&
-          unicodeBlock(ch) != 'Latin Extended Additional') {
+          unicodeBlock(ch) != UnicodeBlock.unicodeLatinExtendedAdditional) {
         nonLatinCount++;
       }
     }
@@ -160,7 +161,7 @@ class Detector {
     if (probabilities.isNotEmpty) {
       return probabilities[0].lang;
     }
-    return UNKNOWN_LANG;
+    return unknownLang;
   }
 
   List<Language> getProbabilities() {
@@ -175,7 +176,7 @@ class Detector {
     List<String> ngrams = _extractNgrams();
     if (ngrams.isEmpty) {
       throw LangDetectException(
-          ErrorCode.CantDetectError, 'No features in text.');
+          ErrorCode.cantDetectError, 'No features in text.');
     }
 
     langProb = List<double>.filled(langList.length, 0.0);
@@ -183,13 +184,13 @@ class Detector {
     random = Random(seed);
     for (int t = 0; t < nTrial; t++) {
       List<double> prob = _initProbability();
-      double alpha = this.alpha + random.nextDouble() * ALPHA_WIDTH;
+      double alpha = this.alpha + random.nextDouble() * alphaWidth;
 
       int i = 0;
       while (true) {
         _updateLangProb(prob, getRandomElement(random, ngrams), alpha);
         if (i % 5 == 0) {
-          if (_normalizeProb(prob) > CONV_THRESHOLD || i >= ITERATION_LIMIT) {
+          if (_normalizeProb(prob) > convThreshold || i >= iterationLimit) {
             break;
           }
         }
@@ -225,7 +226,7 @@ class Detector {
       if (ngram.capitalword) {
         continue;
       }
-      for (int n = 1; n <= NGram.N_GRAM; n++) {
+      for (int n = 1; n <= NGram.nGram; n++) {
         String? w = ngram.get(n);
         if (w != null &&
             w != "" &&
@@ -248,7 +249,7 @@ class Detector {
       logger.d('$word($word): ${_wordProbToString(langProbMap)}');
     }
 
-    double weight = alpha / BASE_FREQ;
+    double weight = alpha / baseFreq;
     for (int i = 0; i < prob.length; i++) {
       prob[i] *= weight + langProbMap[i];
     }
@@ -283,7 +284,7 @@ class Detector {
     List<Language> result = [];
     for (int i = 0; i < langList.length; i++) {
       double p = prob[i];
-      if (p > PROB_THRESHOLD) {
+      if (p > probThreshold) {
         result.add(Language(langList[i], p));
       }
     }

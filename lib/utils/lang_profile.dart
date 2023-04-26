@@ -16,7 +16,7 @@ class LangProfile {
 
   LangProfile({this.name, Map<String, int>? freq, List<int>? nWords})
       : freq = Map<String, int>.from(freq ?? {}),
-        nWords = nWords ?? List<int>.filled(NGram.N_GRAM, 0) {
+        nWords = nWords ?? List<int>.filled(NGram.nGram, 0) {
     if (freq != null) {
       this.freq.addAll(freq);
     }
@@ -25,7 +25,7 @@ class LangProfile {
   void add(String? gram) {
     if (name == null || gram == null) return;
     int length = gram.length;
-    if (length < 1 || length > NGram.N_GRAM) return;
+    if (length < 1 || length > NGram.nGram) return;
     nWords[length - 1]++;
     freq.update(gram, (value) => value + 1, ifAbsent: () => 1);
   }
@@ -36,7 +36,7 @@ class LangProfile {
 
     int roman = 0;
     final keys = freq.keys.toList();
-    keys.forEach((key) {
+    for (final key in keys) {
       // ここでエラー！
       final count = freq[key]!;
       if (count <= threshold) {
@@ -45,17 +45,17 @@ class LangProfile {
       } else if (romanCharRe.hasMatch(key)) {
         roman += count;
       }
-    });
+    }
 
     if (roman < nWords[0] ~/ 3) {
       final keys = freq.keys.toList();
-      keys.forEach((key) {
+      for (final key in keys) {
         final count = freq[key]!;
         if (romanSubstrRe.hasMatch(key)) {
           nWords[key.length - 1] -= count;
           freq.remove(key);
         }
-      });
+      }
     }
   }
 
@@ -66,7 +66,7 @@ class LangProfile {
     for (int i = 0; i < text.length; i++) {
       String ch = text[i];
       gram.addChar(ch);
-      for (int n = 1; n <= NGram.N_GRAM; n++) {
+      for (int n = 1; n <= NGram.nGram; n++) {
         add(gram.get(n));
       }
     }
