@@ -10,6 +10,7 @@ enum ErrorCode {
   initParamError,
 }
 
+/// LangDetectException is the exception class of LangDetect.
 class LangDetectException implements Exception {
   final ErrorCode code;
   final String message;
