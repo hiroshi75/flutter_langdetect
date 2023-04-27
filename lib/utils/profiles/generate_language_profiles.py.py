@@ -3,10 +3,10 @@ import os
 import re
 
 """
-多数のjsonファイル(ファイル名:profiles/*)に以下の形式でデータが入っている
+Data is stored in the following format in a large number of json files (file name: profiles/*)
 {"freq":{"a":230,"h":33,...},"n_words":[1541130,1808182,1328687],"name":"af"}
 
-これを以下のdartプログラムに変更して、lang_{name}.dartとして保存する
+Convert it to the following dart program and save it as lang_{name}.dart
 ```
 import 'language_data.dart';
 
@@ -20,7 +20,6 @@ const afLanguageData = LanguageData(
   name: 'af',
 );
 ```
-
 """
 
 def main():
@@ -33,9 +32,11 @@ def main():
         data = data.replace('"freq":', 'freq: ')
         data = data.replace('"n_words":', 'nWords: ')
         data = data.replace('"name":', 'name: ')
-        # 末尾}を);に置換
+        
+        # Replace the last } with );
         data = re.sub(r'}\s*$', ');', data, flags=re.MULTILINE)
-        # 先頭の{を消す
+        
+        # Remove the first {
         data = re.sub(r'^\s*{', '', data, flags=re.MULTILINE)
 
         with open(f'profiles_data/lang_{name}.dart', 'w', encoding='utf-8') as f:
@@ -47,17 +48,17 @@ def main():
         namelist.append(name)
     
     """
-    namelistに入っている言語名をもとに、以下の１つのdartファイルを生成する。
+    Generate one dart file based on the language name in namelist.
 
     ```
     import 'language_data.dart';
 
     import 'profiles_data/lang_af.dart';
-    // 他の言語データファイルもインポートする
+    // Import other language data files
 
-    const allLanguageProfiles = const [ 
-      afLanguageData,
-      // 他の言語データも追加する
+    const allLanguageProfiles = const [
+        afLanguageData,
+        // Add other language data
     ];
     ```
     """

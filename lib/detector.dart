@@ -7,33 +7,32 @@ import 'lang_detect_exception.dart';
 import 'detector_factory.dart';
 import 'package:logger/logger.dart';
 
+///   [Detector] class is to detect language from specified text.
+///
+///   Its instance is able to be constructed via the factory class [DetectorFactory].
+///   After appending a target text to the [Detector] instance with [append(string)],
+///   the detector provides the language detection results for target text via [detect()] or [getProbabilities()].
+///   [detect()] method returns a single language name which has the highest probability.
+///   [getProbabilities()] methods returns a list of multiple languages and their probabilities.
+///   The detector has some parameters for language detection.
+///   See [setAlpha(double)], [setMaxTextLength(int)] [setPriorMap(dict)].
+///
+///   Example:
+///  ```
+///  import 'package:flutter_langdetect/flutter_langdetect.dart';
+///  import 'package:flutter/widgets.dart';
+///  import 'package:logger/logger.dart';
+///  void main() async {
+///    WidgetsFlutterBinding.ensureInitialized();
+///    DetectorFactory.profileBasePath = "assets/profiles/";
+///    await initLangDetect();
+///    final s = "Hello, world!";
+///    final langs = detect(s);
+///    logger.d("langs: ${langs}");
+///  }
+/// ```
+///
 class Detector {
-  ///   [Detector] class is to detect language from specified text.
-  ///
-  ///   Its instance is able to be constructed via the factory class [DetectorFactory].
-  ///   After appending a target text to the [Detector] instance with [append(string)],
-  ///   the detector provides the language detection results for target text via [detect()] or [getProbabilities()].
-  ///   [detect()] method returns a single language name which has the highest probability.
-  ///   [getProbabilities()] methods returns a list of multiple languages and their probabilities.
-  ///   The detector has some parameters for language detection.
-  ///   See [setAlpha(double)], [setMaxTextLength(int)] [setPriorMap(dict)].
-  ///
-  ///   Example:
-  ///  ```
-  ///  import 'package:flutter_langdetect/flutter_langdetect.dart';
-  ///  import 'package:flutter/widgets.dart';
-  ///  import 'package:logger/logger.dart';
-  ///  void main() async {
-  ///    WidgetsFlutterBinding.ensureInitialized();
-  ///    DetectorFactory.profileBasePath = "assets/profiles/";
-  ///    await initLangDetect();
-  ///    final s = "Hello, world!";
-  ///    final langs = detect(s);
-  ///    logger.d("langs: ${langs}");
-  ///  }
-  /// ```
-  ///
-
   final logger = Logger();
   static const double alphaDefault = 0.5;
   static const double alphaWidth = 0.05;
@@ -61,6 +60,7 @@ class Detector {
   List<double>? priorMap;
   bool verbose = false;
 
+  /// Construct [Detector] instance.
   Detector(this.factory)
       : seed = factory.seed ?? DateTime.now().millisecondsSinceEpoch {
     wordLangProbMap = factory.wordLangProbMap;
@@ -76,8 +76,8 @@ class Detector {
     this.alpha = alpha;
   }
 
+  /// Set prior information about language probabilities.
   void setPriorMap(Map<String, double> priorMap) {
-    /// Set prior information about language probabilities.
     this.priorMap = List<double>.filled(langList.length, 0.0);
     double sump = 0.0;
     for (int i = 0; i < this.priorMap!.length; i++) {
@@ -101,19 +101,18 @@ class Detector {
     }
   }
 
+  /// Specify max size of target text to use for language detection.
+  ///
+  /// The default value is 10000(10KB).
   void setMaxTextLength(int maxTextLength) {
-    /// Specify max size of target text to use for language detection.
-    ///
-    /// The default value is 10000(10KB).
     this.maxTextLength = maxTextLength;
   }
 
+  /// Append the target text for language detection.
+  ///
+  /// If the total size of target text exceeds the limit size specified by
+  /// [Detector.set_max_text_length(int)], the rest is cut down.
   void append(String text) {
-    /// Append the target text for language detection.
-    ///
-    /// If the total size of target text exceeds the limit size specified by
-    /// [Detector.set_max_text_length(int)], the rest is cut down.
-
     text = text.replaceAll(ureRe, ' ');
     text = text.replaceAll(mailRe, ' ');
     text = NGram.normalizeVi(text);
@@ -127,10 +126,10 @@ class Detector {
     }
   }
 
+  /// Cleaning text to detect
+  ///
+  /// (eliminate URL, e-mail address and Latin sentence if it is not written in Latin alphabet).
   void cleaningText() {
-    /// Cleaning text to detect
-    ///
-    /// (eliminate URL, e-mail address and Latin sentence if it is not written in Latin alphabet).
     int latinCount = 0;
     int nonLatinCount = 0;
     for (int codeUnit in text.codeUnits) {
@@ -155,8 +154,8 @@ class Detector {
     }
   }
 
+  /// Detect language of the target text and return the language name which has the highest probability.
   String detect() {
-    /// Detect language of the target text and return the language name which has the highest probability.
     List<Language> probabilities = getProbabilities();
     if (probabilities.isNotEmpty) {
       return probabilities[0].lang;
@@ -266,8 +265,8 @@ class Detector {
     return result;
   }
 
+  /// Normalize probabilities and check convergence by the maximun probability.
   double _normalizeProb(List<double> prob) {
-    /// Normalize probabilities and check convergence by the maximun probability.
     double maxp = 0.0;
     double sump = prob.reduce((a, b) => a + b);
     for (int i = 0; i < prob.length; i++) {

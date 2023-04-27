@@ -37,7 +37,6 @@ class LangProfile {
     int roman = 0;
     final keys = freq.keys.toList();
     for (final key in keys) {
-      // ここでエラー！
       final count = freq[key]!;
       if (count <= threshold) {
         nWords[key.length - 1] -= count;

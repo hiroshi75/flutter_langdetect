@@ -7,17 +7,16 @@ import 'language.dart';
 import 'package:logger/logger.dart';
 import 'utils/profiles/all_language_profiles.dart';
 
+/// Language Detector Factory Class.
+/// This class manages an initialization and constructions of Detector.
+/// Before using language detection library,
+/// initialize just once with initFactory() method after
+/// WidgetsFlutterBinding.ensureInitialized();
+///
+/// When the language detection,
+/// construct Detector instance via DetectorFactory.create().
+/// See also Detector's sample code.
 class DetectorFactory {
-  /// Language Detector Factory Class.
-  /// This class manages an initialization and constructions of Detector.
-  /// Before using language detection library,
-  /// initialize just once with initFactory() method after
-  /// WidgetsFlutterBinding.ensureInitialized();
-  ///
-  /// When the language detection,
-  /// construct Detector instance via DetectorFactory.create().
-  /// See also Detector's sample code.
-
   final logger = Logger();
   static final DetectorFactory _singleton = DetectorFactory._internal();
   static String profileBasePath =
@@ -37,12 +36,14 @@ class DetectorFactory {
     }
   }
 
+  /// Detect language of the input text and return Language code.
   static String detect(String text) {
     Detector detector = DetectorFactory().create();
     detector.append(text);
     return detector.detect();
   }
 
+  /// Detect language of the input text and return Language codes and probabilities.
   static List<Language> detectLangs(String text) {
     Detector detector = DetectorFactory().create();
     detector.append(text);
