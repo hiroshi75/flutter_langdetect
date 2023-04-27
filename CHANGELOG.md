@@ -11,6 +11,3 @@ All notable changes to the `flutter_langdetect` project will be documented in th
 - Support for 55 languages.
 - Documentation in the form of a `README.md` file, including a description of the package, usage instructions, and a history section detailing the origins of the project.
 
-### TODO
-- Comprehensive unit tests.
-

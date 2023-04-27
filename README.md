@@ -39,7 +39,7 @@ void main() async {
   final language = langdetect.detect(text);
   print('Detected language: $language'); // -> "en"
 
-  final probs = detectLangs(text);
+  final probs = langdetect.detectLangs(text);
   for (final p in probs) {
     print("Language: ${p.lang}");  // -> "en"
     print("Probability: ${p.prob}");  // -> 0.9999964132193504
