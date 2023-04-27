@@ -2,6 +2,9 @@
 
 All notable changes to the `flutter_langdetect` project will be documented in this file.
 
+## [0.0.2] - 2023-04-27
+Added documentation.
+
 ## [0.0.1] - 2023-04-25
 
 ### Added
