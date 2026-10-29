@@ -6,6 +6,13 @@ A Flutter package for language detection, ported from the Python [`langdetect`](
 - Detects 55 languages
 - Lightweight and fast
 
+## Requirements
+
+- Dart SDK `>=3.0.0 <4.0.0`
+- Flutter `>=3.10.0`, the first stable Flutter release with Dart 3
+
+Dart 2 is no longer supported. See the [Flutter 3.10 release announcement](https://flutter.dev/blog/whats-new-in-flutter-3-10) for the SDK version relationship.
+
 ## Languages
 `flutter_langdetect` supports 55 languages out of the box ([ISO 639-1 codes](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)):
 
@@ -54,6 +61,22 @@ The `flutter_langdetect` package is inspired by the Python library [`langdetect`
 In turn, the Python `langdetect` library is a port of Nakatani Shuyo's [language-detection](https://github.com/shuyo/language-detection) library, which is written in Java. 
 
 Both of these projects have contributed significantly to the field of natural language processing and have enabled developers to easily integrate language detection capabilities into their applications.
+
+## Development
+
+Run the following commands from the package directory:
+
+```sh
+flutter pub get
+flutter analyze --no-pub
+flutter test --no-pub
+```
+
+Run the console example from the `example` directory:
+
+```sh
+dart run main.dart
+```
 
 ## Contributing
 Contributions are welcome! Feel free to open issues or submit pull requests to improve the package.
