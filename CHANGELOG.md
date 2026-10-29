@@ -2,6 +2,14 @@
 
 All notable changes to the `flutter_langdetect` project will be documented in this file.
 
+## [Unreleased]
+
+### Changed
+
+- Require Dart `>=3.0.0 <4.0.0` and Flutter `>=3.10.0` for the package and example, dropping Dart 2 support.
+- Document SDK requirements and development commands.
+- Allow intentional console output in the example during static analysis.
+
 ## [0.0.2] - 2023-04-27
 Added documentation.
 

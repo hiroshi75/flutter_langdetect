@@ -1,3 +1,6 @@
+// Console output is intentional in this command-line example.
+// ignore_for_file: avoid_print
+
 import 'package:flutter_langdetect/flutter_langdetect.dart' as langdetect;
 
 void main() async {
